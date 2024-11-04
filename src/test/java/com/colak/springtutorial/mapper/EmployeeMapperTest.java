@@ -11,7 +11,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class CompanyMapperTest {
+class EmployeeMapperTest {
 
     @Autowired
     private EmployeeMapper mapper;
@@ -26,5 +26,12 @@ class CompanyMapperTest {
     void leftJoin() {
         List<Map<String, Object>> leftJoin = mapper.leftJoin();
         assertThat(leftJoin).isNotEmpty();
+
+        List<Map<String, Object>> expectedMaps = List.of(
+                Map.of("ID", 1, "NAME", "John Doe", "DEPARTMENT_NAME", "HR")
+        );
+
+        // Assert that the actual list of maps contains exactly the elements in the expected list
+        assertThat(leftJoin).containsAnyElementsOf(expectedMaps);
     }
 }
