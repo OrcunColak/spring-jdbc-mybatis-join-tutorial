@@ -1,6 +1,7 @@
 package com.colak.springtutorial.mapper;
 
 import com.colak.springtutorial.model.Employee;
+import com.colak.springtutorial.model.EmployeeDepartmentDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,6 +15,19 @@ public interface EmployeeMapper {
 
     @Select("SELECT e.id, e.name, d.name AS department_name FROM Employee e LEFT JOIN Department d ON e.department_id = d.id")
     List<Map<String, Object>> leftJoin();
+
+    @Select("""
+        SELECT 
+            e.id AS employeeId,
+            e.name AS employeeName,
+            d.id AS departmentId,
+            d.name AS departmentName
+        FROM 
+            Employee e
+        LEFT JOIN 
+            Department d ON e.department_id = d.id
+    """)
+    List<EmployeeDepartmentDTO> getEmployeeWithDepartment();
 
     @Select("SELECT e.id, e.name, d.name AS department_name FROM Employee e RIGHT JOIN Department d ON e.department_id = d.id")
     List<Map<String, Object>> rightJoin();
